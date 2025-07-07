@@ -37,38 +37,42 @@
         @include('components.alert')
 
         {{-- Tabel Kategori --}}
-        <div class="overflow-x-auto bg-white p-6 rounded-xl shadow border border-slate-200">
-            <table class="min-w-full text-sm text-left border-collapse">
-                <thead>
-                    <tr class="border-b border-slate-300">
-                        <th class="px-4 py-2 font-semibold text-slate-600">Nama</th>
-                        <th class="px-4 py-2 font-semibold text-slate-600">Deskripsi</th>
-                        <th class="px-4 py-2 font-semibold text-slate-600">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($categories as $category)
-                        <tr class="border-b border-slate-100 hover:bg-slate-50">
-                            <td class="px-4 py-2">{{ $category->name }}</td>
-                            <td class="px-4 py-2">{{ $category->description }}</td>
-                            <td class="px-4 py-2 space-x-2">
-                                <a href="{{ route('category.form', ['id' => $category->id]) }}"
-                                   class="text-indigo-600 hover:underline">Edit</a>
-                                <a href="{{ route('category.delete', ['id' => $category->id]) }}"
-                                   class="text-red-600 hover:underline"
-                                   onclick="return confirm('Yakin ingin menghapus kategori ini?')">
-                                   Hapus
-                                </a>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="3" class="px-4 py-4 text-center text-slate-500">Belum ada kategori.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+      {{-- Tabel Kategori --}}
+<div class="overflow-x-auto bg-white p-6 rounded-xl shadow border border-slate-200">
+    <table class="min-w-full text-sm text-left border-collapse">
+        <thead>
+            <tr class="border-b border-slate-300">
+                <th class="px-4 py-2 font-semibold text-slate-600">Nama</th>
+                <th class="px-4 py-2 font-semibold text-slate-600">Jenis</th> {{-- Tambahan --}}
+                <th class="px-4 py-2 font-semibold text-slate-600">Deskripsi</th>
+                <th class="px-4 py-2 font-semibold text-slate-600">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($categories as $category)
+                <tr class="border-b border-slate-100 hover:bg-slate-50">
+                    <td class="px-4 py-2">{{ $category->name }}</td>
+                    <td class="px-4 py-2 capitalize">{{ $category->type }}</td> {{-- Tambahan --}}
+                    <td class="px-4 py-2">{{ $category->description }}</td>
+                    <td class="px-4 py-2 space-x-2">
+                        <a href="{{ route('category.form', ['id' => $category->id]) }}"
+                           class="text-indigo-600 hover:underline">Edit</a>
+                        <a href="{{ route('category.delete', ['id' => $category->id]) }}"
+                           class="text-red-600 hover:underline"
+                           onclick="return confirm('Yakin ingin menghapus kategori ini?')">
+                           Hapus
+                        </a>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4" class="px-4 py-4 text-center text-slate-500">Belum ada kategori.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
     </main>
 
 </body>

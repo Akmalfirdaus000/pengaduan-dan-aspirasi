@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Humas Polresta Padang</title>
+    <title></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
@@ -19,7 +19,7 @@
                 <div class="mb-8 md:mb-0">
                     <img src="path_to_polresta_logo.png" alt="Polresta Padang Logo" class="h-12 w-auto mb-4" />
                     <p class="text-white max-w-xs">
-                        Humas Polresta Padang siap melayani dan memberikan informasi kepada masyarakat untuk menciptakan
+                        Humas Lubuk Buaya Padang siap melayani dan memberikan informasi kepada masyarakat untuk menciptakan
                         ketertiban dan keamanan.
                     </p>
                 </div>
@@ -27,7 +27,7 @@
                 <div class="flex flex-col md:flex-row gap-8">
                     <!-- Kolom Informasi -->
                     <div>
-                        <h4 class="font-bold mb-4">Humas Polresta Padang</h4>
+                        <h4 class="font-bold mb-4">Humas Lubuk Buaya Padang</h4>
                         <ul class="space-y-2">
                             <li><a href="#" class="hover:text-green-600">Tentang Kami</a></li>
                             <li><a href="#" class="hover:text-green-600">Layanan Pengaduan</a></li>
@@ -62,7 +62,7 @@
                             <li><a href="mailto:humas@polrestapadang.com"
                                     class="flex items-center space-x-2 hover:text-green-600">
                                     <i class="fas fa-envelope text-red-500"></i>
-                                    <span>humas@polrestapadang.com</span>
+                                    <span>humas@lubukbuayapadang.com</span>
                                 </a>
                             </li>
                         </ul>
@@ -72,8 +72,8 @@
 
             <!-- Bagian Bawah Footer -->
             <div class="border-t pt-6 text-center text-sm text-white">
-                <p>Polresta Padang: Mengutamakan pelayanan dan keamanan untuk masyarakat.</p>
-                <p class="mt-4">&copy; 2024 Polresta Padang. All Rights Reserved.</p>
+                <p>  Mengutamakan pelayanan dan keamanan untuk masyarakat.</p>
+                <p class="mt-4">&copy; 2024 Lubuk Buaya Padang. All Rights Reserved.</p>
             </div>
         </div>
     </footer>

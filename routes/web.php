@@ -42,7 +42,15 @@ Route::middleware(['auth', 'user'])->prefix('user')->group(function (){
         Route::get('view/{id}', 'complaint_view')->name('complaint.view');
         Route::get('form', 'complaint_form')->name('complaint.form');
         Route::post('add', 'complaint_add')->name('complaint.add');
+Route::get('edit/{id}', 'edit')->name('complaint.edit');
+Route::put('update/{id}', 'update')->name('complaint.update');
+
     });
+
+
+
+Route::delete('/complaint/delete/{id}', [ComplaintController::class, 'destroy'])->name('complaint.delete');
+
 
     Route::controller(ResponseController::class)->prefix('responses')->group(function(){
         Route::post('add', 'response_add')->name('response.add');

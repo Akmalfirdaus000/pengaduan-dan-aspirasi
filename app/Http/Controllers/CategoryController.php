@@ -17,7 +17,8 @@ class CategoryController extends Controller
             $category = Category::find($request->input('id'));
             return view('admin.categories.categoryForm', compact('category'));
         } else {
-            $category = (object) ['name' => null, 'description' => null];
+            // Tambahkan default type untuk new category
+            $category = (object) ['id' => null, 'name' => null, 'type' => null, 'description' => null];
             return view('admin.categories.categoryForm', compact('category'));
         }
     }
@@ -25,23 +26,31 @@ class CategoryController extends Controller
     public function category_add(Request $request){
         $valid = $request->validate([
             'name' => 'required|string|max:150',
-            'description' => 'required|string',
+            'type' => 'required|in:pengaduan,aspirasi',
+            'description' => 'nullable|string',
         ]);
 
         try {
-            Category::create($valid);
-            return redirect()->route('category.list')->with('message', 'Kategori Sukses Batu Dibuat!');
+            if ($request->filled('id')) {
+                // Update
+                Category::where('id', $request->id)->update($valid);
+                return redirect()->route('category.list')->with('message', 'Kategori berhasil diperbarui.');
+            } else {
+                // Create
+                Category::create($valid);
+                return redirect()->route('category.list')->with('message', 'Kategori berhasil ditambahkan.');
+            }
         } catch (\Throwable $th) {
-            return back()->with('error', 'Kesalahan saat menambahkan kategori, mohon coba beberapa saat lagi');
+            return back()->with('error', 'Terjadi kesalahan saat menyimpan kategori.')->withInput();
         }
     }
 
     public function category_delete($id){
         try {
             Category::where('id', $id)->delete();
-            return back()->with('message', 'Kategori Sukses di Hapus');
+            return back()->with('message', 'Kategori berhasil dihapus.');
         } catch (\Throwable $th) {
-            return back()->with('message', 'Kesalahan saat mengapus kategori, coba beberapa saat lagi.');
+            return back()->with('error', 'Gagal menghapus kategori.');
         }
     }
 }

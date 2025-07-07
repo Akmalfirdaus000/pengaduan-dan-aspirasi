@@ -21,7 +21,7 @@ class AuthController extends Controller
 
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required|min:6',
+            'password' => 'required|min:2',
         ]);
 
         $credentials = $request->only('email', 'password');
@@ -49,7 +49,7 @@ class AuthController extends Controller
         $valid = $request->validate([
             'name' => 'required|string|max:100',
             'email' => 'required|string|email|max:150|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:2|confirmed',
         ]);
 
         try {

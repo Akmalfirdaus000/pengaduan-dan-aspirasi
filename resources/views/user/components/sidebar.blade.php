@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ env('APP_NAME') }}</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,9 +16,9 @@
     <div class="flex">
         <!-- Sidebar Container -->
         <div id="sidebar"
-            class="lg:block w-64 bg-purple-600 text-white max-h-full p-5 transition-all duration-300 ease-in-out">
-            <h2 class="text-xl font-bold text-center mb-6 ">Kelurahan Lubuk Buaya </h2>
-            {{-- <img src="/" alt=""> --}}
+            class="hidden lg:block fixed lg:relative top-0 left-0 h-full w-64 bg-purple-600 text-white max-h-full p-5 transition-transform duration-300 ease-in-out z-50">
+            <h2 class="text-xl font-bold text-center mb-6">Kelurahan Lubuk Buaya</h2>
+
             <ul class="space-y-4">
                 <li>
                     <a href="{{ route('user.dashboard') }}"
@@ -35,25 +35,29 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('history.list') }}" class="flex items-center space-x-3 hover:bg-teal-500 p-2 rounded">
+                    <a href="{{ route('history.list') }}"
+                        class="flex items-center space-x-3 hover:bg-teal-500 p-2 rounded">
                         <i class="fas fa-history"></i>
                         <span>Riwayat</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('user.chat.list')}}" class="flex items-center space-x-3 hover:bg-teal-500 p-2 rounded">
+                    <a href="{{ route('user.chat.list') }}"
+                        class="flex items-center space-x-3 hover:bg-teal-500 p-2 rounded">
                         <i class="fas fa-comments"></i>
                         <span>Pesan</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('profile') }}" class="flex items-center space-x-3 hover:bg-teal-500 p-2 rounded">
+                    <a href="{{ route('profile') }}"
+                        class="flex items-center space-x-3 hover:bg-teal-500 p-2 rounded">
                         <i class="fas fa-user"></i>
                         <span>Profil</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('logout') }}" class="flex items-center space-x-3 hover:bg-teal-500 p-2 rounded">
+                    <a href="{{ route('logout') }}"
+                        class="flex items-center space-x-3 hover:bg-teal-500 p-2 rounded">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Logout</span>
                     </a>
@@ -63,7 +67,8 @@
     </div>
 
     <!-- Button to toggle sidebar on small screen -->
-    <button id="menuToggle" class="lg:hidden fixed top-4 left-4 p-3 text-white bg-yellow-500 rounded">
+    <button id="menuToggle"
+        class="lg:hidden fixed top-4 left-4 z-50 p-3 text-white bg-yellow-500 rounded shadow-lg focus:outline-none">
         <i class="fas fa-bars"></i>
     </button>
 

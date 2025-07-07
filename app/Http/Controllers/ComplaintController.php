@@ -27,7 +27,7 @@ class ComplaintController extends Controller
     $validated = $request->validate([
         'title' => 'required|string|max:200',
         'description' => 'required|string',
-        'type' => 'required|in:pengaduan,aspirasi', // Tambahkan ini
+        'type' => 'required|in:pengaduan,aspirasi',
         'category' => 'required|exists:categories,id',
         'location' => 'required|string|max:255',
         'photo' => 'required|image|max:2048',
@@ -132,5 +132,61 @@ class ComplaintController extends Controller
 
     return view('admin.complaints.print', compact('complaint'));
 }
+
+
+public function edit($id)
+{
+    $complaint = Complaint::findOrFail($id);
+    $categories = Category::all(); // asumsikan relasi kategori
+
+    return view('user.complaints.edit', compact('complaint', 'categories'));
+}
+
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'category_id' => 'required|exists:categories,id',
+        'description' => 'required',
+        'location' => 'required|string',
+        'photo' => 'nullable|image|max:2048',
+    ]);
+
+    $complaint = Complaint::findOrFail($id);
+    $complaint->title = $request->title;
+    $complaint->category_id = $request->category_id;
+    $complaint->description = $request->description;
+    $complaint->location = $request->location;
+
+    if ($request->hasFile('photo')) {
+        // Hapus foto lama kalau ada
+        if ($complaint->photo && Storage::exists($complaint->photo)) {
+            Storage::delete($complaint->photo);
+        }
+
+        $file = $request->file('photo');
+        $path = $file->store('public/complaints');
+        $complaint->photo = Storage::url($path);
+    }
+
+    $complaint->save();
+
+    return redirect()->route('complaint')->with('success', 'Pengaduan berhasil diperbarui.');
+}
+
+
+public function destroy($id)
+{
+    $complaint = Complaint::findOrFail($id);
+
+    // Hapus dulu riwayat statusnya
+    $complaint->complaintHistory()->delete();
+
+    // Baru hapus complaint-nya
+    $complaint->delete();
+
+    return redirect()->route('complaint')->with('success', 'Pengaduan berhasil dihapus.');
+}
+
 
 }

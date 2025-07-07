@@ -16,7 +16,7 @@
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex-shrink-0">
-                    <a href="#" class="text-black font-bold text-2xl">Polresta Padang</a>
+                    <a href="#" class="text-black font-bold text-2xl">Lubuk Buaya Padang</a>
                 </div>
                 <!-- Navigation Links -->
                 <div class="hidden md:flex space-x-6">

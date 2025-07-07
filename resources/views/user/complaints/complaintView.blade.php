@@ -9,6 +9,9 @@
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
@@ -16,22 +19,28 @@
     <link href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.3/dist/css/lightbox.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.3/dist/js/lightbox.min.js"></script>
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        #map {
+            height: 250px;
+        }
+    </style>
 </head>
 
 <body class="bg-white text-gray-800">
-     <section class="flex min-h-screen">
+<section class="flex min-h-screen">
 
-        {{-- Sidebar --}}
-        @include('user.components.sidebar')
+    {{-- Sidebar --}}
+    @include('user.components.sidebar')
     @include('components.alert')
 
-    <div class="md:p-4 bg-white min-h-screen">
+    <div class="md:p-4 bg-white min-h-screen flex-1">
         <div class="mx-auto p-1 lg:p-5 shadow-lg rounded-lg overflow-hidden">
             <div class="flex justify-end pr-10">
                 <a href="javascript:history.back()"
-                    class="flex items-center w-32 bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition duration-200">
+                   class="flex items-center w-32 bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition duration-200">
                     <i class="fas fa-arrow-left mr-2"></i>
                     Kembali
                 </a>
@@ -43,7 +52,7 @@
                 <div class="p-3">
                     <a href="{{ $complaint->photo }}" data-lightbox="complaint-image">
                         <img src="{{ $complaint->photo }}" alt="Complaint Image"
-                            class="object-cover w-full h-96 rounded-lg shadow-md">
+                             class="object-cover w-full h-96 rounded-lg shadow-md">
                     </a>
                 </div>
 
@@ -96,7 +105,9 @@
                             <i class="fas fa-map-marker-alt text-red-500 mr-2"></i>
                             <h2 class="text-lg font-semibold">Lokasi</h2>
                         </div>
-                        <p class="text-gray-700">{{ $complaint->location }}</p>
+                        <p class="text-gray-700 mb-2"><span class="font-medium">Koordinat:</span> {{ $complaint->location }}</p>
+                        <p id="reverseAddress" class="text-sm text-gray-500 italic mb-2">Memuat alamat...</p>
+                        <div id="map" class="rounded border border-gray-300 shadow"></div>
                     </div>
                 </div>
             </div>
@@ -134,10 +145,10 @@
                         @csrf
                         <input type="hidden" name="complaint_id" value="{{ $complaint->id }}">
                         <textarea name="response_text" rows="4"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
-                            placeholder="Tulis komentar di sini..."></textarea>
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                                  placeholder="Tulis komentar di sini..."></textarea>
                         <button type="submit"
-                            class="bg-emerald-600 text-white px-6 py-2 rounded-lg flex items-center space-x-2 hover:bg-emerald-700 transition">
+                                class="bg-emerald-600 text-white px-6 py-2 rounded-lg flex items-center space-x-2 hover:bg-emerald-700 transition">
                             <i class="fas fa-paper-plane"></i>
                             <span>Kirim Komentar</span>
                         </button>
@@ -157,6 +168,43 @@
             </div>
         </div>
     </div>
-     </section>
+</section>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const location = "{{ $complaint->location }}";
+
+        if (location) {
+            const coords = location.split(',');
+            if (coords.length === 2) {
+                const lat = parseFloat(coords[0]);
+                const lng = parseFloat(coords[1]);
+
+                const map = L.map('map').setView([lat, lng], 15);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors'
+                }).addTo(map);
+
+                const marker = L.marker([lat, lng]).addTo(map)
+                    .bindPopup('Lokasi Pengaduan').openPopup();
+
+                // Reverse Geocoding (Nominatim)
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('reverseAddress').textContent = data.display_name || "Alamat tidak ditemukan";
+                    })
+                    .catch(() => {
+                        document.getElementById('reverseAddress').textContent = "Gagal mengambil alamat.";
+                    });
+            }
+        }
+    });
+</script>
+
 </body>
 </html>
